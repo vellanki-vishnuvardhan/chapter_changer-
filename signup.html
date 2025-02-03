@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="login.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="cover">
+            <img src="images\cc-high-resolution-logo.png" alt="Chapter chANGER">
+            <div class="text"></div>
+        </div>
+        <div class="forms">
+            <div class="signup-form">
+                <div class="title">Sign Up</div>
+                <form class="signup-form" action="signup.php" method="post" onsubmit="return validateForm()">
+                    <div class="input-boxes">
+                        <div class="input-box">
+                            <i class="fas fa-user"></i>
+                            <input type="text" placeholder="Enter your name" name="name" required>
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" placeholder="Enter your email" name="email" required>
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-number"></i>
+                            <input type="text" placeholder="Enter your number" name="phnumber" required>
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-globe"></i>
+                            <select name="state" required>
+                                <option value="" disabled selected>Select your state</option>
+                                <option value="Telengana">Telengana</option>
+                                <option value="AP">AP</option>
+                                <!-- Add more states as needed -->
+                            </select>
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-city"></i>
+                            <select name="city" required>
+                                <option value="" disabled selected>Select your city</option>
+                                <option value="Hyderabad">Hyderabad</option>
+                                <option value="Naspur">Naspur</option>
+                                <!-- Add more cities as needed -->
+                            </select>
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="Enter your password" name="password" required>
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="Confirm your password" name="confirm_password" required>
+                        </div>
+                        <div class="button input-box">
+                            <input type="submit" value="Sign Up">
+                        </div>
+                        <div class="text login-text">Already have an account? <a href="index.html" onclick="showLoginForm()">Login</a></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function validateForm() {
+            const form = document.querySelector('.signup-form');
+            const name = form.querySelector('input[name="name"]').value;
+            const email = form.querySelector('input[name="email"]').value;
+            const phnumber = form.querySelector('input[name="phnumber"]').value;
+            const state = form.querySelector('select[name="state"]').value;
+            const city = form.querySelector('select[name="city"]').value;
+            const password = form.querySelector('input[name="password"]').value;
+            const confirmPassword = form.querySelector('input[name="confirm_password"]').value;
+
+            // Username validation: no spaces
+            if (name.trim().includes(' ')) {
+                alert('Username cannot contain spaces.');
+                return false;
+            }
+
+            // Email validation: @ and . required
+            const emailRegex = /^[\w-.]+@[\w-]+(\.\w+)+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                return false;
+            }
+
+            // Phone number validation: digits only
+            const phoneRegex = /^[9][0-9]{9}$/;
+            if (!phoneRegex.test(phnumber)) {
+                alert('Phone number must contain only digits.');
+                return false;
+            }
+
+            // State and city selection: city dropdown only for Telangana
+            if (state === 'Telengana' && city === '') {
+                alert('Please select your city.');
+                return false;
+            }
+
+            // Password validation: length, at least one uppercase, lowercase, number, and symbol
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[^\s]{6,}$/;
+            if (!passwordRegex.test(password)) {
+                alert('Password must be at least 6 characters long and contain at least one uppercase letter, lowercase letter, number, and symbol.');
+                return false;
+            }
+
+            // Confirm password validation: match password
+            if (confirmPassword !== password) {
+                alert('Passwords do not match.');
+                return false;
+            }
+
+            return true; // Allow form submission if all validations pass
+        }
+    </script>
+</body>
+
+</html>

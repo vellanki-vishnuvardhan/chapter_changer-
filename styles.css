@@ -1,0 +1,107 @@
+/* Custom CSS */
+
+body {
+    background: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);
+  }
+  
+  .navbar {
+    padding: 20px; /* Adjust padding as needed */
+    height: 80px; /* Adjust height as needed */
+    background: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);
+  }
+  
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    color: #333; /* Change color as needed */
+    font-weight: bold;
+    text-decoration: none;
+    font-family: 'Amatic SC', cursive;
+    font-size: 40px;
+  }
+  
+  .navbar-brand img {
+    width: 50px; /* Adjust width as needed */
+    height: 50px; /* Adjust height as needed */
+    border-radius: 50%;
+    margin-right: 10px; /* Adjust margin as needed */
+  } 
+  
+  .navbar-nav {
+    margin-left: auto;
+  }
+  
+  .navbar-nav .nav-link {
+    font-size: 18px; /* Adjust font size as needed */
+  }
+  
+  .navbar-nav .nav-item:nth-child(5) {
+    margin-right: auto;
+  }
+  
+  .right.modal.fade .modal-dialog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    transform: translate3d(100%, 0, 0);
+    transition: transform 0.3s ease-out;
+  }
+  
+  .right.modal.fade.show .modal-dialog {
+    transform: translate3d(0, 0, 0);
+  }
+  
+  .notification {
+    margin-bottom: 10px; /* Reduce margin between notifications */
+    padding: 10px; /* Add padding to notifications */
+    border: 1px solid #ccc; /* Add border to notifications */
+    border-radius: 5px; /* Add border radius */
+    cursor: pointer;
+  }
+  
+  .notification:last-child {
+    margin-bottom: 0; /* Remove bottom margin for the last notification */
+  }
+  
+  .notification.seen {
+    background-color: #f0f0f0; /* Change background color for seen notifications */
+  }
+  
+  @media (max-width: 576px) { /* Adjust styles for small screens */
+    .notification {
+      padding: 8px; /* Reduce padding for smaller screens */
+      font-size: 14px; /* Reduce font size for smaller screens */
+    }
+  }
+  
+  .card {
+    margin-bottom: 20px; /* Add space between cards */
+  }
+
+  .search-form {
+    margin-bottom: 20px;
+  }
+  
+  .dropdown-search {
+    width: 150px; /* Adjust width as needed */
+  }
+  .card-img-top {
+    width: 100%;
+    height: 200px; /* Adjust height as needed */
+    object-fit: cover;
+}
+
+.request {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .request p {
+    margin-bottom: 5px;
+  }
+
+  

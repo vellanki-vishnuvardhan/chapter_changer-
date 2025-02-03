@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- AOS CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script src="login.js" defer></script>
+
+    <script>
+        function validateForm() {
+            const form = document.querySelector('.login-form');
+            const email = form.querySelector('input[name="email"]').value;
+            const password = form.querySelector('input[name="password"]').value;
+
+            // Email validation: @ and . required
+            const emailRegex = /^[\w-.]+@[\w-]+(\.\w+)+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                return false;
+            }
+
+            // Password validation: length, at least one uppercase, lowercase, number, and symbol
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[^\s]{6,}$/;
+            if (!passwordRegex.test(password)) {
+                alert('Password must be at least 6 characters long and contain at least one uppercase letter, lowercase letter, number, and symbol.');
+                return false;
+            }
+
+            return true; // Allow form submission if all validations pass
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="cover">
+            <img src="images\cc-high-resolution-logo.png" alt="Chapter chANGER">
+            <div class="text"></div>
+        </div>
+        <div class="forms">
+            <div class="login-form" data-aos="fade-up" duration=100000>
+                <div class="title">Login</div>
+                <form class="login-form" action="login.php" method="post" onsubmit="return validateForm()">
+                    <div class="input-boxes">
+                        <div class="input-box">
+                            <i class="fas fa-envelope"></i>
+                            <input type="text" placeholder="Enter your email" name="email" required>
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="Enter your password" name="password" required>
+                        </div>
+                        <div class="text"><a href="forgot.html" onclick="showForgotForm()">Forgot password?</a></div>
+                        <div class="button input-box">
+                            <input type="submit" value="Login">
+                        </div>
+                        <div class="text sign-up-text">Don't have an account? <a href="signup.html" onclick="showSignUpForm()">Signup now</a></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- AOS JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+                 duration:1000
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

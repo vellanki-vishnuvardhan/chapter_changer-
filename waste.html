@@ -1,0 +1,298 @@
+ 
+<?php
+// Start session
+session_start();
+
+// Check if the form has been submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+
+    $servername = "localhost";
+$username = "root";
+$password = ""; // Assuming you haven't set a password
+$dbname = "chapterchanger";
+$port = 3308; // Specify the correct port here
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname, $port);
+
+
+   
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } else {
+        // Prepare SQL statement to retrieve user data based on email
+        $stmt = $conn->prepare("SELECT id, name, email, password FROM signup WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            // User found, verify password
+            $row = $result->fetch_assoc();
+            if (password_verify($password, $row['password'])) {
+                // Password is correct, start session and store user data
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['user_name'] = $row['name'];
+                $_SESSION['user_email'] = $row['email'];
+
+                // Redirect user to dashboard or any other page
+                header("Location: home.html");
+                exit();
+            } else {
+                // Password is incorrect
+                $error_message = "Invalid email or password.";
+            }
+        } else {
+            // User not found
+            $error_message = "Invalid email or password.";
+        }
+
+        // Close prepared statement and database connection
+        $stmt->close();
+        $conn->close();
+    }
+}
+?>
+-----------------------------------------------------------------------------------------
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!-- Profile Picture and Name -->
+            <a class="navbar-brand" href="#">
+                <img src="images\cc-high-resolution-logo.png" alt="Chapter Changer" class="profile-pic">
+                John Doe
+            </a>
+            <!-- Navbar Toggler -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Carousel -->
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="carousel-image1.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="carousel-image2.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="carousel-image3.jpg" class="d-block w-100" alt="...">
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+
+-----------------------------------------------------------------------------------------
+
+<login class="php">
+
+
+    <?php
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Start session
+session_start();
+
+// Check if the form has been submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    
+
+    $servername = "localhost";
+    $username = "root";
+    $db_password = ""; // Change this if you have set a password for your database
+    $dbname = "chapterchanger";
+    $port = 3308; // Change this if your MySQL server uses a different port
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $db_password, $dbname, $port);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Prepare SQL statement to retrieve user data based on email
+    $stmt = $conn->prepare("SELECT id, name, email, password FROM signup WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows == 1) {
+        // User found, verify password
+        
+        $row = $result->fetch_assoc();
+        echo $row["password"];
+        echo "<br>";
+        echo $password;
+        if (password_verify($password, $row['password'])) {
+            // Password is correct, start session and store user data
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['user_name'] = $row['name'];
+            $_SESSION['user_email'] = $row['email'];
+
+            echo("loginpage working");
+
+            // Redirect user to dashboard or any other page
+            header("Location: book.php");
+            exit();
+        } else {
+            // Password is incorrect
+            $error_message = "Invalid email or password.";
+            echo "gggggggg";
+        }
+    } else {
+        // User not found
+        $error_message = "Invalid email or password.";
+    }
+
+    // Close prepared statement and database connection
+    $stmt->close();
+    $conn->close();
+}
+?>
+
+</login>
+
+...................................................................................--------------------
+
+make apost
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    include 'dbconnect.php'; // Include your database connection file
+    $err1 = false;
+    $err2 = false;
+
+    session_start();
+    $user_id = $_SESSION['user_id'];
+    $user_name = $_SESSION['user_name']; // Retrieve the user ID from the session
+
+    // Retrieve form data
+    $bookname = $_POST["bookname"];
+    $isbn = $_POST["isbn"];
+    $auth = $_POST["author"];
+    $ogprice = $_POST["originalPrice"];
+    $exprice = $_POST["expectedPrice"];
+    $description = $_POST["description"];
+    $gener1 = $_POST["categories"]; // Assuming this is an array
+    $gener2 = $_POST["categories2"]; // Assuming this is an array
+
+    // Retrieve file details for image 1
+    $imgname1 = $_FILES["bookCoverImage1"]["name"];
+    $imgerr1 = $_FILES["bookCoverImage1"]["error"];
+    $imgtemp1 = $_FILES["bookCoverImage1"]["tmp_name"];
+    $imgext1 = explode('.', $imgname1);
+    $imgactualext1 = strtolower(end($imgext1));
+
+    // Repeat the above for image 2
+    // Retrieve file details for image 2
+    $imgname2 = $_FILES["bookCoverImage2"]["name"];
+    $imgerr2 = $_FILES["bookCoverImage2"]["error"];
+    $imgtemp2 = $_FILES["bookCoverImage2"]["tmp_name"];
+    $imgext2 = explode('.', $imgname2);
+    $imgactualext2 = strtolower(end($imgext2));
+
+    $allowed = array('jpg', 'jpeg', 'png');
+
+    // Check if image 1 is of allowed type and handle file upload
+    if (in_array($imgactualext1, $allowed)) {
+        if ($imgerr1 === 0) {
+            $img_new1 = uniqid('', true) . "." . $imgactualext1;
+            $filedestination1 = 'images/uploads/' . $img_new1; // Corrected file destination path
+            move_uploaded_file($imgtemp1, $filedestination1);
+        } else {
+            $err1 = true;
+            $errmessg1 = "Error uploading file 1";
+        }
+    } else {
+        $err1 = true;
+        $errmessg1 = "Invalid file type for file 1";
+    }
+
+    // Check if image 2 is of allowed type and handle file upload
+    if (in_array($imgactualext2, $allowed)) {
+        if ($imgerr2 === 0) {
+            $img_new2 = uniqid('', true) . "." . $imgactualext2;
+            $filedestination2 = 'images/uploads/' . $img_new2; // Corrected file destination path
+            move_uploaded_file($imgtemp2, $filedestination2);
+        } else {
+            $err2 = true;
+            $errmessg2 = "Error uploading file 2";
+        }
+    } else {
+        $err2 = true;
+        $errmessg2 = "Invalid file type for file 2";
+    }
+
+    // Check for errors and redirect if any
+    if ($err1 == false || $err2 == false) {
+        header("Location: ../makepost.php?postsucess=false&poerror=$errmessg1");
+    } else {
+        // Insert data into database
+        $sql = "INSERT INTO `postbook` (`b_name`, `b_isbn`, `b_auth`, `og_pr`, `ex_pr`, `descript`, `pic1`, `pic2`, `genr1`, `genr2`, `used`, `display`, `usenam`, `user_id`) 
+                VALUES ('$bookname', '$isbn', '$auth', '$ogprice', '$exprice', '$description', '$filedestination1', '$filedestination2', '$gener1', '$gener2', 'N', 'Y', '$user_name', '$user_id')";
+
+        $result = mysqli_query($conn, $sql);
+
+        if ($result) {
+            echo "<script>alert('Post is successful');</script>";
+            header("Location: ../home.html?postpsuccess=true");
+            exit();
+        } else {
+            header("Location: ../index.php?postpsuccess=false");
+        }
+    }
+}
+?>
